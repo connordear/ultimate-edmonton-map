@@ -14,13 +14,12 @@ const Map = ({ locations, multiPoints }: MapPropsType) => {
     <MapContainer
       center={[53.5461, -113.4937]}
       zoom={13}
-      scrollWheelZoom={false}
       style={{
         height: "100%",
         width: "100%",
       }}
     >
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      <TileLayer url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" />
       {locations.map((location) => (
         <Marker position={parseLocation(location.location)}>
           <Popup>{location.name}</Popup>
