@@ -1,4 +1,6 @@
-export function parseLocation(loc: string) {
+import { LatLngExpression } from "leaflet";
+
+export function parseLocation(loc: string): LatLngExpression {
   // string version is (lat, lng)
 
   // check format
