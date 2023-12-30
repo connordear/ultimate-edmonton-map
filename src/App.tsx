@@ -1,7 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
 import "./App.css";
-import { Location, Name } from "./types";
+import Map from "./Map";
+import { Location } from "./types";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -9,7 +10,7 @@ const supabase = createClient(
 );
 
 function App() {
-  const [data, setData] = useState<(Name & Location)[]>([]);
+  const [data, setData] = useState<Location[]>([]);
 
   useEffect(() => {
     getData();
@@ -26,12 +27,9 @@ function App() {
   if (!data) return <div>{import.meta.env.SUPABASE_KEY} Loading...</div>;
   return (
     <>
-      {data.map((item) => (
-        <div key={item.name}>
-          {item.name}
-          {item.location}
-        </div>
-      ))}
+      <div style={{ height: "100vh", width: "100vw", overflow: "hidden" }}>
+        <Map locations={data} />
+      </div>
     </>
   );
 }
