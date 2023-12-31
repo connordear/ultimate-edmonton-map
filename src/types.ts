@@ -4,5 +4,5 @@ export interface Location {
 }
 
 export interface MultiPoint {
-  multipoint: string;
+  geometry_line: string;
 }

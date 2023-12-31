@@ -1,6 +1,12 @@
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import {
+  MapContainer,
+  Marker,
+  Polyline,
+  Popup,
+  TileLayer,
+} from "react-leaflet";
 import { Location, MultiPoint } from "./types";
-import { parseLocation } from "./utils/locationUtils";
+import { parseLocation, parsePolyline } from "./utils/locationUtils";
 
 type MapPropsType = {
   locations: Location[];
@@ -24,6 +30,15 @@ const Map = ({ locations, multiPoints }: MapPropsType) => {
         <Marker position={parseLocation(location.location)}>
           <Popup>{location.name}</Popup>
         </Marker>
+      ))}
+      {multiPoints?.map((multiPoint) => (
+        <Polyline
+          positions={parsePolyline(multiPoint.geometry_line)}
+          pathOptions={{
+            color: "red",
+            weight: 5,
+          }}
+        />
       ))}
     </MapContainer>
   );
