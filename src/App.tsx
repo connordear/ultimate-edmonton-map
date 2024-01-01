@@ -32,7 +32,7 @@ function App() {
     data && setMultiPoints(data);
   }
 
-  if (!data) return <div>{import.meta.env.SUPABASE_KEY} Loading...</div>;
+  if (!data) return <div>Loading...</div>;
   return (
     <>
       <div style={{ height: "100vh", width: "100vw", overflow: "hidden" }}>

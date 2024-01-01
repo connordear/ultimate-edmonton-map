@@ -36,7 +36,7 @@ const Map = ({ locations, multiPoints }: MapPropsType) => {
           positions={parsePolyline(multiPoint.geometry_line)}
           pathOptions={{
             color: "red",
-            weight: 5,
+            weight: 1,
           }}
         />
       ))}
