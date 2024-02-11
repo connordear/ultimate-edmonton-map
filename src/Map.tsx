@@ -1,3 +1,4 @@
+import { LatLngExpression } from "leaflet";
 import {
   LayerGroup,
   LayersControl,
@@ -7,6 +8,7 @@ import {
   Popup,
   TileLayer,
 } from "react-leaflet";
+import ChangeView from "./ChangeView";
 import useLocationData from "./client/useLocationData";
 import useMultiPointData from "./client/useMultiPointData";
 import { TableData } from "./types";
@@ -14,24 +16,37 @@ import { parseLocation, parsePolyline } from "./utils/locationUtils";
 
 type MapPropsType = {
   layers: TableData[];
+  userLocation?: LatLngExpression;
+  center?: LatLngExpression;
 };
 
-const Map = ({ layers }: MapPropsType) => {
+const Map = ({
+  layers,
+  userLocation,
+  center = [53.5461, -113.4937],
+}: MapPropsType) => {
   return (
     <MapContainer
-      center={[53.5461, -113.4937]}
-      zoom={13}
+      center={userLocation ?? center}
+      zoom={15}
       style={{
         height: "100%",
         width: "100%",
       }}
     >
+      <ChangeView center={userLocation ?? center} zoom={15} />
       <TileLayer url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" />
       <LayersControl>
         {layers.map((layer) => (
-          <MapLayer layer={layer} />
+          <MapLayer key={layer.table_name} layer={layer} />
         ))}
       </LayersControl>
+      {/* Marker for user location */}
+      {userLocation && (
+        <Marker opacity={0.5} position={userLocation}>
+          <Popup>You are here</Popup>
+        </Marker>
+      )}
     </MapContainer>
   );
 };
@@ -51,8 +66,11 @@ const LocationMapLayer = ({ layer }: { layer: TableData }) => {
   return (
     <LayersControl.Overlay checked name={layer.display_name}>
       <LayerGroup>
-        {locations.map((location) => (
-          <Marker position={parseLocation(location.location)}>
+        {locations.map((location, i) => (
+          <Marker
+            key={`${location.name}-${i}`}
+            position={parseLocation(location.location)}
+          >
             <Popup>{location.name}</Popup>
           </Marker>
         ))}
@@ -67,8 +85,9 @@ const MultiPointMapLayer = ({ layer }: { layer: TableData }) => {
   return (
     <LayersControl.Overlay checked name={layer.display_name}>
       <LayerGroup>
-        {multiPoints.map((multiPoint) => (
+        {multiPoints.map((multiPoint, i) => (
           <Polyline
+            key={i}
             positions={parsePolyline(multiPoint.geometry_line)}
             pathOptions={{
               color: "red",

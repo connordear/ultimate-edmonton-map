@@ -2,9 +2,15 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import Map from "./Map";
 import { supabase } from "./client/db";
+import useUserLocation from "./hooks/useUserLocation";
 import { TableData } from "./types";
 
 function App() {
+  const {
+    location,
+    loading: isUserLocationLoading,
+    error: userLocationError,
+  } = useUserLocation();
   const [tables, setTables] = useState<TableData[]>([]);
 
   async function getTables() {
@@ -20,7 +26,7 @@ function App() {
   return (
     <>
       <div style={{ height: "100vh", width: "100vw", overflow: "hidden" }}>
-        <Map layers={tables} />
+        <Map layers={tables} userLocation={location} />
       </div>
     </>
   );

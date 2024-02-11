@@ -11,7 +11,6 @@ const useLocationData = (tableData: TableData) => {
 
   async function getData(tableName: string) {
     const { data } = await supabase.from(tableName).select("*");
-    console.log(data);
     data && setLocations(data);
   }
 
