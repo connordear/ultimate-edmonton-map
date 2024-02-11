@@ -6,11 +6,7 @@ import useUserLocation from "./hooks/useUserLocation";
 import { TableData } from "./types";
 
 function App() {
-  const {
-    location,
-    loading: isUserLocationLoading,
-    error: userLocationError,
-  } = useUserLocation();
+  const { location } = useUserLocation();
   const [tables, setTables] = useState<TableData[]>([]);
 
   async function getTables() {
